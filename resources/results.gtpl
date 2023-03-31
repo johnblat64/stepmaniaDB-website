@@ -1,36 +1,11 @@
-<style>
-body {
-    background-color: aquamarine;
-}
-.boxed {
-    border: 2px solid green ;
-    margin-bottom: 5px;
-}
-
-.boxed:hover {
-    background-color: green;
-    color: pink
-}
-
-.centered {
-    text-align: center;
-    align-self: center;
-}
-
-h1 {
-    color: green
-}
-</style>
-
-
 <head>
-    <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" type="text/css" href="/resources/style.css">
 </head>
 
 
-<body>
+<body class="bg">
 
-<h1 class="centered">www.StepmaniaDB.com</h1>
+<h1 class="centered">www.StepmaniaDB<a style="text-decoration: none; color: green" href="https://youtu.be/ruSjI7r1sO0?t=294">.</a>com</h1>
 <div class="centered">
     <small class="centered">Coming soon to a world wide web near you!</small>
     <br>
@@ -40,14 +15,20 @@ h1 {
 <h2>Search Results</h2> 
 
     {{range .Songs}}
-    <div class="boxed">
-        <ul >
-            <h3>{{.Title}} </h3>
-            <li>Artist: {{.Artist}}</li>
-            <li> Bpms: {{range $i, $a := .Bpms}} {{$a}}, {{end}}</li>
-        </ul>
-
-    </div>
+    <a style="text-decoration: none; color: black" href="song">
+        <span style="display: block; " class="boxed" >
+            <ul >
+            
+                <h3>{{.Title}} </h3>
+                <li>Artist: {{.Artist}}</li>
+                <li> Bpms: {{range $i, $a := .Bpms}} {{$a}}, {{end}}</li>
+            </ul>
+        </span>
+    </a>
+   
     {{end}}
+
+    <h1 class="centered">You have successfully reached the end of the page</h1>
+
 
 </body>

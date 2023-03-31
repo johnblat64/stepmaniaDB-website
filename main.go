@@ -16,7 +16,7 @@ type SongsData struct {
 }
 
 func songs(c *gin.Context) {
-	response, err := http.Get("http://localhost:8080/songList")
+	response, err := http.Get("http://localhost:8080/songs")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -49,9 +49,24 @@ func songs(c *gin.Context) {
 
 }
 
+func getSong(c *gin.Context) {
+	response, err := http.Get("http://localhost:8080/song/adc8073c-09a1-4c2c-a5d6-6ce4e05f020f")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer response.Body.Close()
+	//json.Unmarshal()
+	tmpl := template.Must(template.ParseFiles("resources/song.gtpl"))
+	// err = tmpl.Execute(c.Writer, song)
+	// if err != nil {
+	// 	log.Panicln(err)
+	// }
+}
+
 func main() {
 	r := gin.Default()
 	r.Static("/resources", "./resources")
 	r.GET("/", songs)
+	r.GET("/song", getSong)
 	r.Run(":80")
 }
