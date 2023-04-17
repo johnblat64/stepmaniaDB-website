@@ -14,7 +14,7 @@
 </div>
 <h2>Search Results</h2> 
 
-    {{range .Songs}}
+    {{range .SongPage.Songs}}
     <a style="text-decoration: none; color: black" href="song">
         <span style="display: block; " class="boxed" >
             <ul >

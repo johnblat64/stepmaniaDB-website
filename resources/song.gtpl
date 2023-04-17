@@ -11,7 +11,7 @@
         <h2>{{.Title}}</h2>
         <ul>
             <li>Artist: {{.Artist}}</li>
-            <li>Bpms: {{range $i, $a := .Bpms}} {{$a}}, {{end}}</li>
+            <li>Bpms: {{range $i, $a := .Bpms}} {{$a.Value}}, {{end}}</li>
             <li> TimeSignatures: 
                 {{range $i, $a := .TimeSignatures}} 
                 {{$a.Numerator}}/{{$a.Denominator}}

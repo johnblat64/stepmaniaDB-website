@@ -12,7 +12,7 @@ import (
 
 type SongsData struct {
 	PageTitle string
-	Songs     []Song
+	SongPage  SongPage
 }
 
 func songs(c *gin.Context) {
@@ -32,8 +32,8 @@ func songs(c *gin.Context) {
 		log.Fatal(err)
 	}
 
-	var songList []Song
-	err = json.Unmarshal(responseData, &songList)
+	var songsPage SongPage
+	err = json.Unmarshal(responseData, &songsPage)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -42,7 +42,7 @@ func songs(c *gin.Context) {
 
 	data := SongsData{
 		PageTitle: "Results",
-		Songs:     songList,
+		SongPage:  songsPage,
 	}
 
 	tmpl.Execute(c.Writer, data)
@@ -50,23 +50,43 @@ func songs(c *gin.Context) {
 }
 
 func getSong(c *gin.Context) {
-	response, err := http.Get("http://localhost:8080/song/adc8073c-09a1-4c2c-a5d6-6ce4e05f020f")
+	response, err := http.Get("http://localhost:8080/songs/" + c.Param("songid"))
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer response.Body.Close()
-	//json.Unmarshal()
+
+	if response.StatusCode >= 500 && response.StatusCode < 600 {
+		c.String(500, "Internal Server Error")
+		return
+	}
+	responseData, err := io.ReadAll(response.Body)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	var song Song
+	json.Unmarshal(responseData, &song)
 	tmpl := template.Must(template.ParseFiles("resources/song.gtpl"))
-	// err = tmpl.Execute(c.Writer, song)
-	// if err != nil {
-	// 	log.Panicln(err)
-	// }
+	err = tmpl.Execute(c.Writer, song)
+	if err != nil {
+		log.Panicln(err)
+	}
+}
+
+func getNotFound(c *gin.Context) {
+	tmpl := template.Must(template.ParseFiles("resources/404.html"))
+	tmpl.Execute(c.Writer, nil)
+	c.Status(http.StatusNotFound)
 }
 
 func main() {
 	r := gin.Default()
 	r.Static("/resources", "./resources")
 	r.GET("/", songs)
-	r.GET("/song", getSong)
+	r.GET("/songs/:songid", getSong)
+	r.NoRoute(getNotFound)
+
 	r.Run(":80")
 }
