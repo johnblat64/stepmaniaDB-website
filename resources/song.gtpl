@@ -6,6 +6,7 @@
     <h1 class="centered">www.StepmaniaDB.com</h1>
     <div class="centered">
         <small class="centered">Coming soon to a world wide web near you!</small>
+        <small class = "centered"> This is a nice little site I made that can search through a database of stepmania song and chart metadata. Try out all the different form fields and enjoy using them. I especially like the stepstype search field. I hope you do too :) </small>
     </div>
     <div>
         <h2>{{.Title}}</h2>

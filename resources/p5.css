@@ -1,0 +1,184 @@
+/* Persona 5 Inspired CSS */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap');
+
+:root {
+    --p5-red: #c12c4a;
+    --p5-black: #000000;
+    --p5-white: #ffffff;
+    --p5-yellow: #f7d358;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--p5-black);
+    color: var(--p5-white);
+    margin: 0;
+    padding: 1rem;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 400;
+}
+
+a {
+    color: var(--p5-red);
+    text-decoration: none;
+}
+
+a:hover {
+    color: var(--p5-white);
+    text-decoration: underline;
+}
+
+header {
+    text-align: center;
+    padding: 1rem 0;
+}
+
+.intro {
+    width: 80%;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    background-color: var(--p5-red);
+    text-align: center;
+    margin: 30px auto 50px auto;
+}
+
+/* header img {
+    width: 100%;
+    max-width: 300px;
+} */
+
+.flex-container {
+    display: flex;
+    /* justify-content: center; */
+    /* align-items: flex-start; */
+}
+
+.left-search-form {
+    /* background-color: var(--p5-yellow); */
+    padding: 0.2rem;
+    border: 0.2rem solid var(--p5-red);
+    flex: 20%
+}
+
+.left-search-form:hover {
+    /* background-color: var(--p5-yellow); */
+    /* padding: 0.2rem;
+    border: 0.2rem solid var(--p5-red);
+    flex: 20%; */
+    animation: shrink-grow-little 0.1s ease-in-out;
+}
+
+.right-search-results {
+    padding-left: 0.2rem;
+    flex: 80%
+}
+/* form {
+    display: flex;
+    flex-direction: column;
+    /* gap: 1rem; */
+
+
+/* .left-side-search-form {
+    display: grid;
+    grid-template-columns: 1fr;
+    /* flex: 1; */
+    /* margin-right: 1rem; */
+
+
+/* form {
+    width: 250px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+} */
+
+.title {
+    display: inline;
+    text-align:center;
+}
+
+.searchzone-header {
+    background-color: var(--p5-red);
+    color: var(--p5-white);
+    padding: 1rem;
+    display: block;
+    margin-bottom: 1rem;
+    position: relative;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    text-align: center;
+}
+
+form label {
+    display: block;
+    margin-bottom: 0.5rem;
+}
+form input {
+    display: block;
+    
+    margin-bottom: 0.5rem;
+}
+form select {
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+form input[type="submit"] {
+    background-color: var(--p5-red);
+    color: var(--p5-white);
+    cursor: pointer;
+    border: none;
+    padding: 0.5rem 1rem;
+}
+
+form input[type="submit"]:hover {
+    background-color: var(--p5-white);
+    color: var(--p5-black);
+}
+
+.list-item {
+    background-color: var(--p5-red);
+    color: var(--p5-white);
+    padding: 1rem;
+    display: block;
+    margin-bottom: 1rem;
+    position: relative;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.list-item:hover {
+    background-color: var(--p5-white);
+    color: var(--p5-black);
+    animation: shrink-grow 0.1s ease-in-out;
+}
+
+@keyframes shrink-grow {
+    0% {
+        transform: scale(1);
+    }
+    20% {
+        transform: scale(0.95);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes shrink-grow-little {
+    0% {
+        transform: scale(1);
+    }
+    20% {
+        transform: scaleX(0.95);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+
+footer {
+    text-align: center;
+    padding: 1rem 0;
+}
