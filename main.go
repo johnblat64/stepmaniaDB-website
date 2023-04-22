@@ -5,11 +5,15 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"os"
+	"sort"
 	"strconv"
 	"text/template"
 
 	"github.com/gin-gonic/gin"
 )
+
+var GBackendApiEndpoint string
 
 type SongsData struct {
 	PageTitle        string
@@ -21,7 +25,7 @@ func songs(c *gin.Context) {
 	c.MultipartForm()
 	queryStr := c.Request.URL.RawQuery
 
-	response, err := http.Get("http://localhost:8080/songs?" + queryStr)
+	response, err := http.Get(GBackendApiEndpoint + "/songs?" + queryStr)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -65,6 +69,17 @@ func songs(c *gin.Context) {
 	if err != nil {
 		log.Println(err)
 	}
+	meterMinStr := c.DefaultQuery("meterMin", "0")
+	songResultModel.SearchParameters.MeterMin, err = strconv.Atoi(meterMinStr)
+	if err != nil {
+		log.Println(err)
+	}
+	meterMaxStr := c.DefaultQuery("meterMax", "99")
+	songResultModel.SearchParameters.MeterMax, err = strconv.Atoi(meterMaxStr)
+	if err != nil {
+		log.Println(err)
+	}
+
 	pageStr := c.DefaultQuery("page", "1")
 	songResultModel.Page, err = strconv.Atoi(pageStr)
 	if err != nil {
@@ -83,6 +98,12 @@ func songs(c *gin.Context) {
 	}
 
 	songResultModel.Songs = songResultsResponse.Songs
+	// we like to display the difficulty in order of easiest to hardest
+	for _, song := range songResultModel.Songs {
+		sort.Slice(song.Charts, func(i, j int) bool {
+			return song.Charts[i].Meter < song.Charts[j].Meter
+		})
+	}
 	songResultModel.PageCount = songResultsResponse.PageCount
 	songResultModel.TotalSongsCount = songResultsResponse.TotalSongsCount
 
@@ -98,7 +119,7 @@ func songs(c *gin.Context) {
 }
 
 func getSong(c *gin.Context) {
-	response, err := http.Get("http://localhost:8080/songs/" + c.Param("songid"))
+	response, err := http.Get(GBackendApiEndpoint + "/songs/" + c.Param("songid"))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -130,6 +151,12 @@ func getNotFound(c *gin.Context) {
 }
 
 func main() {
+	// get environment variable for backend api endpoint and crash if not set with log
+	GBackendApiEndpoint = os.Getenv("BACKEND_API_ENDPOINT")
+	if GBackendApiEndpoint == "" {
+		log.Fatal("BACKEND_API_ENDPOINT environment variable not set")
+	}
+
 	r := gin.Default()
 	r.Static("/resources", "./resources")
 	r.GET("/", songs)

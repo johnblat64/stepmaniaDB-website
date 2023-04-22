@@ -56,6 +56,8 @@ type SongSearchParameters struct {
 	TimeSignatureDenominator int
 	BpmMin                   int
 	BpmMax                   int
+	MeterMin                 int
+	MeterMax                 int
 	StepsType                string
 }
 
@@ -70,8 +72,12 @@ type SongsResultsModel struct {
 	SearchParameters SongSearchParameters
 }
 
+type SongModel struct {
+	Song Song `json:"song"`
+}
+
 func (params SongSearchParameters) AsQueryString() string {
-	return "?title=" + params.Title + "&artist=" + params.Artist + "&credit=" + params.Credit + "&pack=" + params.Pack + "&stepstype=" + params.StepsType + "&timeSignatureNumerator=" + strconv.Itoa(params.TimeSignatureNumerator) + "&timeSignatureDenominator=" + strconv.Itoa(params.TimeSignatureDenominator) + "&bpmMin=" + strconv.Itoa(params.BpmMin) + "&bpmMax=" + strconv.Itoa(params.BpmMax)
+	return "?title=" + params.Title + "&artist=" + params.Artist + "&credit=" + params.Credit + "&pack=" + params.Pack + "&stepstype=" + params.StepsType + "&timeSignatureNumerator=" + strconv.Itoa(params.TimeSignatureNumerator) + "&timeSignatureDenominator=" + strconv.Itoa(params.TimeSignatureDenominator) + "&bpmMin=" + strconv.Itoa(params.BpmMin) + "&bpmMax=" + strconv.Itoa(params.BpmMax) + "&meterMin=" + strconv.Itoa(params.MeterMin) + "&meterMax=" + strconv.Itoa(params.MeterMax)
 }
 
 func (resultsModel SongsResultsModel) NextPage() int {

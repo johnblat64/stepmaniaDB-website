@@ -30,7 +30,7 @@
     <div class="flex-container">
 
 
-        <div class="left-search-form" >
+        <div class="search-form" >
             <h2>Search Fields</h3>
             <form  action="/songs" method="GET">
                 <label for="title">Song Title</label> 
@@ -38,22 +38,41 @@
 
                 <label for="artist" >Artist</label> 
                 <input type="text" name="artist" id="artist" value="{{.SongResultsModel.SearchParameters.Artist}}">
-                <!-- text inputs for credit, pack name, time signature (in the form numerator/denominator)-->
+                
+                <label for="Difficulty Meter">Difficulty Meter</label>
+                <ul>
+                    <li>
+                        <label for="meterMin"> Min </label> <input type="number" name="meterMin" id="meterMin" value="{{.SongResultsModel.SearchParameters.MeterMin}}">
+                    </li>
+                    <li>
+                        <label for="meterMax">Max</label> <input type="number" name="meterMax" id="meterMax" value="{{.SongResultsModel.SearchParameters.MeterMax}}">
+                    </li>
+                </ul>
+                
+               
+
                 <label for="credit" >Credit (Chart Author)</label> 
                 <input type="text" name="credit" id="credit" value="{{.SongResultsModel.SearchParameters.Credit}}">
 
                 <label for="pack" >Pack Name</label>
                 <input type="text" name="pack" id="pack" value="{{.SongResultsModel.SearchParameters.Pack}}">
-                <!-- The HTML input types are:-->
-                <!-- text, number, date, time, datetime-local, month, week, email, url, search, tel, and password.-->
+      
 
                 <label for="timeSignatureNumerator">Time Signature</label>
-                <input type="number" name="timeSignatureNumerator" id="timeSignatureNumerator" value="4">
-                <input type="number" name="timeSignatureDenominator" id="timeSignatureDenominator" value="4">
+                <input type="number" name="timeSignatureNumerator" id="timeSignatureNumerator" value="{{.SongResultsModel.SearchParameters.TimeSignatureNumerator}}">
+                <input type="number" name="timeSignatureDenominator" id="timeSignatureDenominator" value="{{.SongResultsModel.SearchParameters.TimeSignatureDenominator}}">
 
                 <label for="bpmMin">BPM</label> 
-                <label for="bpmMin">Min</label> <input type="number" name="bpmMin" id="bpmMin" value="0">
-                <label for="bpmMax">Max</label> <input type="number" name="bpmMax" id="bpmMax" value="999">
+                <ul>
+                    <li>
+                        <label for="bpmMin"> Min </label> <input type="number" name="bpmMin" id="bpmMin" value="{{.SongResultsModel.SearchParameters.BpmMin}}">
+                    </li>
+                    <li>
+                        <label for="bpmMax">Max</label> <input type="number" name="bpmMax" id="bpmMax" value="{{.SongResultsModel.SearchParameters.BpmMax}}">
+                    </li>
+
+                </ul>
+
                 <label for="stepstype">Steps Type</label> 
                 <select name="stepstype" id="stepstype">
                     <option value="">All</option>
@@ -68,16 +87,16 @@
         </div>
 
 
-        <div class="right-search-results">
+        <div class="search-results">
             <h2>Search Results</h2>
 
             <div id="page-selection-top">
-                <p>Number of Results: {{.SongResultsModel.TotalSongsCount}}</p>
-                {{if ge .SongResultsModel.PreviousPage 1}}
+                <p>Total Results: {{.SongResultsModel.TotalSongsCount}}</p> 
+                <p>Results on this page: {{len .SongResultsModel.Songs}}</p>                {{if ge .SongResultsModel.PreviousPage 1}}
                     <a href="songs{{.SongResultsModel.SearchParameters.AsQueryString}}&page={{.SongResultsModel.PreviousPage}}">&lt;===</a>
                 {{end}}
                 
-                {{.SongResultsModel.Page}}  
+                Page {{.SongResultsModel.Page}}  
 
                 {{if .SongResultsModel.HasNextPage}}
                     <a href="songs{{.SongResultsModel.SearchParameters.AsQueryString}}&page={{.SongResultsModel.NextPage}}">===&gt;</a>
@@ -86,23 +105,26 @@
 
             {{range .SongResultsModel.Songs}}
             <a href="songs/{{.SongId}}">
-                <article class="list-item">
-                    <h3>{{.Title}} </h3>
+                <div class="list-item">
+                    <h3 style="font-weight:bold;">{{.Title}} </h3>
                     <ul>
+                        <li>Pack: {{.PackName}}</li>
                         <li>Artist: {{.Artist}}</li>
-                        <li> Bpms: {{range $i, $a := .Bpms}} {{$a.Value}}, {{end}}</li>
+                        <li>Bpms: {{range $i, $a := .Bpms}} {{$a.Value}}, {{end}}</li>
+                        <li>Difficulty Meters: {{range $i, $chart := .Charts}} {{$chart.Meter}}, {{end}} </li>
                     </ul>
-                </article>
+                </div>
             </a>
             {{end}}
 
             <div id="page-selection-bottom">
-                <p>Number of Results: {{.SongResultsModel.TotalSongsCount}}</p>
+                <p>Total Results: {{.SongResultsModel.TotalSongsCount}}</p> 
+                <p>Results on this page: {{len .SongResultsModel.Songs}}</p>
                 {{if ge .SongResultsModel.PreviousPage 1}}
                     <a href="songs{{.SongResultsModel.SearchParameters.AsQueryString}}&page={{.SongResultsModel.PreviousPage}}">&lt;===</a>
                 {{end}}
                 
-                {{.SongResultsModel.Page}}  
+                Page {{.SongResultsModel.Page}}  
                 
                 {{if .SongResultsModel.HasNextPage}}
                     <a href="songs{{.SongResultsModel.SearchParameters.AsQueryString}}&page={{.SongResultsModel.NextPage}}">===&gt;</a>
@@ -118,7 +140,7 @@
 
 
 <footer>
-    <h1 class="centered">You have successfully reached the end of the page</h1>
+    <h1 class="centered">You have successfully reached the end of the page. Good Job!</h1>
     <!-- Add any additional footer content here -->
 </footer>
 
