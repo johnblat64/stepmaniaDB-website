@@ -55,14 +55,14 @@ header {
     /* align-items: flex-start; */
 }
 
-.left-search-form {
+.search-form {
     /* background-color: var(--p5-yellow); */
     padding: 0.2rem;
     border: 0.2rem solid var(--p5-red);
     flex: 20%
 }
 
-.left-search-form:hover {
+.search-form:hover {
     /* background-color: var(--p5-yellow); */
     /* padding: 0.2rem;
     border: 0.2rem solid var(--p5-red);
@@ -70,7 +70,7 @@ header {
     animation: shrink-grow-little 0.1s ease-in-out;
 }
 
-.right-search-results {
+.search-results {
     padding-left: 0.2rem;
     flex: 80%
 }

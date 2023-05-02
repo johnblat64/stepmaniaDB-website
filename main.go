@@ -107,14 +107,14 @@ func songs(c *gin.Context) {
 	songResultModel.PageCount = songResultsResponse.PageCount
 	songResultModel.TotalSongsCount = songResultsResponse.TotalSongsCount
 
-	tmpl := template.Must(template.ParseFiles("resources/results.gtpl"))
+	tmpl := template.Must(template.ParseFiles("resources/search.gtpl", "resources/base.gtpl"))
 
 	data := SongsData{
-		PageTitle:        "Results",
+		PageTitle:        "Search",
 		SongResultsModel: songResultModel,
 	}
 
-	tmpl.Execute(c.Writer, data)
+	tmpl.ExecuteTemplate(c.Writer, "base", data)
 
 }
 
@@ -137,8 +137,37 @@ func getSong(c *gin.Context) {
 
 	var song Song
 	json.Unmarshal(responseData, &song)
-	tmpl := template.Must(template.ParseFiles("resources/song.gtpl"))
-	err = tmpl.Execute(c.Writer, song)
+	sort.Slice(song.Charts, func(i, j int) bool {
+		return song.Charts[i].Meter < song.Charts[j].Meter
+	})
+	tmpl := template.Must(template.ParseFiles("resources/song.gtpl", "resources/base.gtpl"))
+	err = tmpl.ExecuteTemplate(c.Writer, "base", song)
+	if err != nil {
+		log.Panicln(err)
+	}
+}
+
+func getPack(c *gin.Context) {
+	response, err := http.Get(GBackendApiEndpoint + "/packs/" + c.Param("packid"))
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer response.Body.Close()
+
+	if response.StatusCode >= 500 && response.StatusCode < 600 {
+		c.String(500, "Internal Server Error")
+		return
+	}
+	responseData, err := io.ReadAll(response.Body)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	var pack Pack
+	json.Unmarshal(responseData, &pack)
+	tmpl := template.Must(template.ParseFiles("resources/pack.gtpl", "resources/base.gtpl"))
+	err = tmpl.ExecuteTemplate(c.Writer, "base", pack)
 	if err != nil {
 		log.Panicln(err)
 	}
@@ -148,6 +177,15 @@ func getNotFound(c *gin.Context) {
 	tmpl := template.Must(template.ParseFiles("resources/404.html"))
 	tmpl.Execute(c.Writer, nil)
 	c.Status(http.StatusNotFound)
+}
+
+func getAbout(c *gin.Context) {
+	tmpl := template.Must(template.ParseFiles("resources/about.gtpl", "resources/base.gtpl"))
+	err := tmpl.ExecuteTemplate(c.Writer, "base", nil)
+	if err != nil {
+		log.Panicln(err)
+	}
+
 }
 
 func main() {
@@ -162,6 +200,8 @@ func main() {
 	r.GET("/", songs)
 	r.GET("/songs", songs)
 	r.GET("/songs/:songid", getSong)
+	r.GET("/packs/:packid", getPack)
+	r.GET("/about", getAbout)
 	r.NoRoute(getNotFound)
 
 	r.Run(":80")

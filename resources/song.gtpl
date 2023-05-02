@@ -1,16 +1,9 @@
-<head>
-    <link rel="stylesheet" type="text/css" href="/resources/p5.css">
-</head>
+{{define "content"}}
 
-<body>
-    <h1 class="centered">www.StepmaniaDB.com</h1>
-    <div class="centered">
-        <small class="centered">Coming soon to a world wide web near you!</small>
-        <small class = "centered"> This is a nice little site I made that can search through a database of stepmania song and chart metadata. Try out all the different form fields and enjoy using them. I especially like the stepstype search field. I hope you do too :) </small>
-    </div>
     <div>
-        <h2>{{.Title}}</h2>
+        <h1>{{.Title}}</h1>
         <ul>
+            <li>Pack: <a href="/packs/{{.PackId}}">{{.PackName}}</a></li>
             <li>Artist: {{.Artist}}</li>
             <li>Bpms: {{range $i, $a := .Bpms}} {{$a.Value}}, {{end}}</li>
             <li> TimeSignatures: 
@@ -19,10 +12,25 @@
                 {{end}}
             </li>
 
+            <div>
+                <h2> Charts </h2>
+                    {{range $i, $chart := .Charts}}
+                    <h3> {{$chart.Description}} </h3>
+                        <ul>
+                            <li>Steps Type: {{$chart.StepsType}}</li>
+                            <li>Number of Stops: {{$chart.StopsCount}}</li>
+                            <li> Number of Delays: {{$chart.DelaysCount}}</li>
+                            <li> Number of Warps: {{$chart.WarpsCount}}</li>
+                            <li> Number of Scrolls: {{$chart.ScrollsCount}}</li>
+                            <li> Number of Fakes: {{$chart.FakesCount}}</li>
+                            <li> Number of Speeds: {{$chart.SpeedsCount}}</li>
+                            <li> Meter: {{$chart.Meter}} </li>
+                        </ul>
+                    {{end}}
+            </div>
+
             
         </ul>
     </div>
-
-    <h1 class="centered">You have successfully reached the end of the page</h1>
     
-</body>
+{{end}}

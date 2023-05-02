@@ -5,7 +5,7 @@ import "strconv"
 type Chart struct {
 	Chartid      string `json:"chartId" `
 	Chartname    string `json:"name" `
-	Stepstype    string `json:"stepsType" `
+	StepsType    string `json:"stepsType" `
 	Description  string `json:"description" `
 	Chartstyle   string `json:"chartStyle" `
 	Difficulty   string `json:"difficulty" `
@@ -37,6 +37,21 @@ type Song struct {
 	Charts         []Chart         `json:"charts"`
 	PackId         string          `json:"packId"         db:"packid"`
 	PackName       string          `json:"packName"       db:"name"`
+}
+
+type SongNugget struct {
+	SongId         string          `json:"songId"   db:"songid"`
+	Title          string          `json:"title"    db:"title"`
+	Artist         string          `json:"artist"   db:"artist"`
+	Bpms           []Bpm           `json:"bpms"           `
+	TimeSignatures []TimeSignature `json:"timeSignatures" `
+}
+
+type Pack struct {
+	PackId       string `json:"packId"   db:"packid"`
+	PackName     string `json:"packName" db:"name"`
+	DownloadLink string `json:"downloadLink" db:"download_link"`
+	Songs        []Song `json:"songs"`
 }
 
 type SongResultsResponse struct {
