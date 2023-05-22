@@ -2,6 +2,7 @@
 
     <div>
         <h1>{{.Title}}</h1>
+        <img src="{{generateBannerUrl .BannerPath}}" alt="Banner for {{.Title}}">
         <ul>
             <li>Pack: <a href="/packs/{{.PackId}}">{{.PackName}}</a></li>
             <li>Artist: {{.Artist}}</li>
@@ -17,14 +18,18 @@
                     {{range $i, $chart := .Charts}}
                     <h3> {{$chart.Description}} </h3>
                         <ul>
+                            <li>Credit: {{$chart.Credit}}</li>
                             <li>Steps Type: {{$chart.StepsType}}</li>
-                            <li>Number of Stops: {{$chart.StopsCount}}</li>
-                            <li> Number of Delays: {{$chart.DelaysCount}}</li>
-                            <li> Number of Warps: {{$chart.WarpsCount}}</li>
-                            <li> Number of Scrolls: {{$chart.ScrollsCount}}</li>
-                            <li> Number of Fakes: {{$chart.FakesCount}}</li>
-                            <li> Number of Speeds: {{$chart.SpeedsCount}}</li>
+                            <li>Difficulty: {{$chart.Difficulty}}</li>
                             <li> Meter: {{$chart.Meter}} </li>
+                            <li> Radar Values </li>
+                            <ul>
+                                <li>Stream: {{$chart.Stream}}</li>
+                                <li>Voltage: {{$chart.Voltage}}</li>
+                                <li>Chaos: {{$chart.Chaos}}</li>
+                                <li>Freeze: {{$chart.Freeze}}</li>
+                                <li>Air: {{$chart.Air}}</li>
+                            </ul>
                         </ul>
                     {{end}}
             </div>

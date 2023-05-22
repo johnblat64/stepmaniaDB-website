@@ -19,7 +19,8 @@
     <br>
     <nav>
         <a href="/songs"> Home</a> | 
-        <a href="/about"> About</a>
+        <a href="/about"> About</a> |
+        <a href="/todo">Upcomming Features</a>
     </nav>
 
 

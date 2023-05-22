@@ -36,6 +36,10 @@ github.com/modern-go/reflect2 v1.0.2/go.mod h1:yWuevngMOJpCy52FWWMvUC8ws7m/LJsjY
 github.com/pelletier/go-toml/v2 v2.0.6 h1:nrzqCb7j9cDFj2coyLNLaZuJTLjWjlaz6nvTvIwycIU=
 github.com/pelletier/go-toml/v2 v2.0.6/go.mod h1:eumQOmlWiOPt5WriQQqoM5y18pDHwha2N+QD+EUNTek=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
+github.com/stepmaniadb/stepmaniadb-core v0.0.0-20230510041322-8cdf45400bfe h1:0Hz+UICqNa54jYVC69M/kmPkp0xxQwL6k6NKMne/suM=
+github.com/stepmaniadb/stepmaniadb-core v0.0.0-20230510041322-8cdf45400bfe/go.mod h1:hbEQkHkKg3cdA3rPoIYotyxOZrtGtTlC7vbe5FknPuk=
+github.com/stepmaniadb/stepmaniadb-core v0.0.0-20230521000652-fa301a254d3e h1:smhbI/qEZe74a0T7qyktGNC/aL5fYcTMwR5NdrBC2vM=
+github.com/stepmaniadb/stepmaniadb-core v0.0.0-20230521000652-fa301a254d3e/go.mod h1:hbEQkHkKg3cdA3rPoIYotyxOZrtGtTlC7vbe5FknPuk=
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
 github.com/stretchr/objx v0.4.0/go.mod h1:YvHI0jy2hoMjB+UWwv71VJQ9isScKT/TqJzVSSt89Yw=
 github.com/stretchr/objx v0.5.0/go.mod h1:Yh+to48EsGEfYuaHDzXPcE3xhTkx73EhmCGUpEOglKo=

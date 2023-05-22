@@ -11,9 +11,8 @@ import (
 	"text/template"
 
 	"github.com/gin-gonic/gin"
+	smdbcore "github.com/stepmaniadb/stepmaniadb-core"
 )
-
-var GBackendApiEndpoint string
 
 type SongsData struct {
 	PageTitle        string
@@ -25,7 +24,7 @@ func songs(c *gin.Context) {
 	c.MultipartForm()
 	queryStr := c.Request.URL.RawQuery
 
-	response, err := http.Get(GBackendApiEndpoint + "/songs?" + queryStr)
+	response, err := http.Get(GEnvironmentConfig.BackendApiUrl + "/songs?" + queryStr)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -97,6 +96,8 @@ func songs(c *gin.Context) {
 		log.Fatal(err)
 	}
 
+	songResultModel.FileStoreUrl = GEnvironmentConfig.FileStoreUrl
+
 	songResultModel.Songs = songResultsResponse.Songs
 	// we like to display the difficulty in order of easiest to hardest
 	for _, song := range songResultModel.Songs {
@@ -107,7 +108,9 @@ func songs(c *gin.Context) {
 	songResultModel.PageCount = songResultsResponse.PageCount
 	songResultModel.TotalSongsCount = songResultsResponse.TotalSongsCount
 
-	tmpl := template.Must(template.ParseFiles("resources/search.gtpl", "resources/base.gtpl"))
+	tmpl := template.Must(template.New("resources/search.gtpl").Funcs(template.FuncMap{
+		"generateBannerUrl": generateBannerUrl,
+	}).ParseFiles("resources/search.gtpl", "resources/base.gtpl"))
 
 	data := SongsData{
 		PageTitle:        "Search",
@@ -119,7 +122,7 @@ func songs(c *gin.Context) {
 }
 
 func getSong(c *gin.Context) {
-	response, err := http.Get(GBackendApiEndpoint + "/songs/" + c.Param("songid"))
+	response, err := http.Get(GEnvironmentConfig.BackendApiUrl + "/songs/" + c.Param("songid"))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -135,12 +138,16 @@ func getSong(c *gin.Context) {
 		log.Fatal(err)
 	}
 
-	var song Song
+	var song smdbcore.Song
 	json.Unmarshal(responseData, &song)
 	sort.Slice(song.Charts, func(i, j int) bool {
 		return song.Charts[i].Meter < song.Charts[j].Meter
 	})
-	tmpl := template.Must(template.ParseFiles("resources/song.gtpl", "resources/base.gtpl"))
+
+	tmpl := template.Must(template.New("resources/song.gtpl").Funcs(template.FuncMap{
+		"generateBannerUrl": generateBannerUrl,
+	}).ParseFiles("resources/song.gtpl", "resources/base.gtpl"))
+
 	err = tmpl.ExecuteTemplate(c.Writer, "base", song)
 	if err != nil {
 		log.Panicln(err)
@@ -148,7 +155,7 @@ func getSong(c *gin.Context) {
 }
 
 func getPack(c *gin.Context) {
-	response, err := http.Get(GBackendApiEndpoint + "/packs/" + c.Param("packid"))
+	response, err := http.Get(GEnvironmentConfig.BackendApiUrl + "/packs/" + c.Param("packid"))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -164,9 +171,13 @@ func getPack(c *gin.Context) {
 		log.Fatal(err)
 	}
 
-	var pack Pack
+	var pack smdbcore.Pack
 	json.Unmarshal(responseData, &pack)
-	tmpl := template.Must(template.ParseFiles("resources/pack.gtpl", "resources/base.gtpl"))
+
+	tmpl := template.Must(template.New("resources/pack.gtpl").Funcs(template.FuncMap{
+		"generateBannerUrl": generateBannerUrl,
+	}).ParseFiles("resources/pack.gtpl", "resources/base.gtpl"))
+
 	err = tmpl.ExecuteTemplate(c.Writer, "base", pack)
 	if err != nil {
 		log.Panicln(err)
@@ -188,11 +199,25 @@ func getAbout(c *gin.Context) {
 
 }
 
+func getTodo(c *gin.Context) {
+	tmpl := template.Must(template.ParseFiles("resources/todo.gtpl", "resources/base.gtpl"))
+	err := tmpl.ExecuteTemplate(c.Writer, "base", nil)
+	if err != nil {
+		log.Panicln(err)
+	}
+
+}
+
 func main() {
 	// get environment variable for backend api endpoint and crash if not set with log
-	GBackendApiEndpoint = os.Getenv("BACKEND_API_ENDPOINT")
-	if GBackendApiEndpoint == "" {
+	GEnvironmentConfig.BackendApiUrl = os.Getenv("BACKEND_API_ENDPOINT")
+	if GEnvironmentConfig.BackendApiUrl == "" {
 		log.Fatal("BACKEND_API_ENDPOINT environment variable not set")
+	}
+
+	GEnvironmentConfig.FileStoreUrl = os.Getenv("FILE_STORE_ENDPOINT")
+	if GEnvironmentConfig.FileStoreUrl == "" {
+		log.Fatal("FILE_STORE_ENDPOINT environment variable not set")
 	}
 
 	r := gin.Default()
@@ -202,6 +227,7 @@ func main() {
 	r.GET("/songs/:songid", getSong)
 	r.GET("/packs/:packid", getPack)
 	r.GET("/about", getAbout)
+	r.GET("/todo", getTodo)
 	r.NoRoute(getNotFound)
 
 	r.Run(":80")
