@@ -40,6 +40,8 @@ github.com/stepmaniadb/stepmaniadb-core v0.0.0-20230510041322-8cdf45400bfe h1:0H
 github.com/stepmaniadb/stepmaniadb-core v0.0.0-20230510041322-8cdf45400bfe/go.mod h1:hbEQkHkKg3cdA3rPoIYotyxOZrtGtTlC7vbe5FknPuk=
 github.com/stepmaniadb/stepmaniadb-core v0.0.0-20230521000652-fa301a254d3e h1:smhbI/qEZe74a0T7qyktGNC/aL5fYcTMwR5NdrBC2vM=
 github.com/stepmaniadb/stepmaniadb-core v0.0.0-20230521000652-fa301a254d3e/go.mod h1:hbEQkHkKg3cdA3rPoIYotyxOZrtGtTlC7vbe5FknPuk=
+github.com/stepmaniadb/stepmaniadb-core v0.0.0-20230523163452-409f912385fa h1:2tpkzEfurKmZGFRp9cqoJt1QzVDjubrhwRHZTbI7hwc=
+github.com/stepmaniadb/stepmaniadb-core v0.0.0-20230523163452-409f912385fa/go.mod h1:hbEQkHkKg3cdA3rPoIYotyxOZrtGtTlC7vbe5FknPuk=
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
 github.com/stretchr/objx v0.4.0/go.mod h1:YvHI0jy2hoMjB+UWwv71VJQ9isScKT/TqJzVSSt89Yw=
 github.com/stretchr/objx v0.5.0/go.mod h1:Yh+to48EsGEfYuaHDzXPcE3xhTkx73EhmCGUpEOglKo=

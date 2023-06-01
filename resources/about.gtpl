@@ -1,12 +1,10 @@
 {{define "content"}}
 
 <h2>What the heck is this site?</h2>
-<div class="intro">
-    <small></small>
-    <br>
+
     <p> This is a fun little site I made that can search through a database of stepmania song and chart metadata. Try out all the different form fields until you find a combination that is right for you! I personally enjoy the Steps Type search field as it allows me to search for specific games and pad configurations. I hope you get use out of all the fields to find songs you like </p>
-    <p> If there is a pack that is not on here, please send me the download link and I'll try and get it added haha. Message me on this discord server: <a style="color:blue" href="https://discord.gg/Pj2PCJnggT"> https://discord.gg/Pj2PCJnggT </a></p> <br>
-</div>
+    <p> If there is a pack that is not on here, please send me the download link and I'll try and get it added haha. Message me on this discord server: <a href="https://discord.gg/Pj2PCJnggT"> https://discord.gg/Pj2PCJnggT </a></p> <br>
+
 
 <h2> Why did I make this site?</h2>
 I made this site because there wasn't a site that met the following critieria:
